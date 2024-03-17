@@ -9,6 +9,7 @@
     "email": "dylang@gmail.com",
     "url": "github.com/dylang"
   },
+  "type": "module",
   "engines": {
     "node": ">=4.0.0"
   },
