@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "eventemitter3": "^1.2.0",
-    "got": "^6.3.0",
+    "got": "^14.2.1",
     "unique-random-array": "^1.0.0"
   },
   "devDependencies": {
