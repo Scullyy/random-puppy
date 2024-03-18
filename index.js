@@ -1,8 +1,6 @@
-'use strict';
-
-const got = require('got');
-const uniqueRandomArray = require('unique-random-array');
-const EventEmitter = require('eventemitter3');
+import got from 'got';
+import uniqueRandomArray from 'unique-random-array';
+import EventEmitter from 'eventemitter3';
 
 const randomCache = {};
 
@@ -21,20 +19,19 @@ function storeResults(images, subreddit) {
     return getRandomImage;
 }
 
-function randomPuppy(subreddit) {
+export function randomPuppy(subreddit) {
     subreddit = (typeof subreddit === 'string' && subreddit.length !== 0) ? subreddit : 'puppies';
 
     if (randomCache[subreddit]) {
         return Promise.resolve(formatResult(randomCache[subreddit]));
     }
 
-    return got(`https://imgur.com/r/${subreddit}/hot.json`, {json: true})
+    return got(`https://imgur.com/r/${subreddit}/hot.json`, { json: true })
         .then(response => storeResults(response.body.data, subreddit))
         .then(getRandomImage => formatResult(getRandomImage));
 }
 
-// silly feature to play with observables
-function all(subreddit) {
+export function all(subreddit) {
     const eventEmitter = new EventEmitter();
 
     function emitRandomImage(subreddit) {
@@ -56,9 +53,7 @@ function callback(subreddit, cb) {
         .catch(err => cb(err));
 }
 
-// subreddit is optional
-// callback support is provided for a training exercise
-module.exports = (subreddit, cb) => {
+export default function getRandomPuppy(subreddit, cb) {
     if (typeof cb === 'function') {
         callback(subreddit, cb);
     } else if (typeof subreddit === 'function') {
@@ -66,6 +61,4 @@ module.exports = (subreddit, cb) => {
     } else {
         return randomPuppy(subreddit);
     }
-};
-
-module.exports.all = all;
+}
